@@ -58,3 +58,6 @@ sysinfo.txt
 # Crashlytics generated file
 crashlytics-build.properties
 
+# Ignore Asset Store file
+CloneYume100/Assets/AssetStore/
+CloneYume100/Assets/AssetStore.meta
