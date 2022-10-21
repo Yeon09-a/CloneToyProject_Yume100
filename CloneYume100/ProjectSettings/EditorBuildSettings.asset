@@ -14,4 +14,13 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/01.Scenes/Main.unity
     guid: 00968a77023dee144a06efdec3f1df67
+  - enabled: 1
+    path: Assets/01.Scenes/Gacha/GachaScene.unity
+    guid: 7f96dafd6d2622f4686f322080608912
+  - enabled: 1
+    path: Assets/01.Scenes/Gacha/GachaValue.unity
+    guid: 3f88a37220e99894f9d35e73cfe1ae07
+  - enabled: 1
+    path: Assets/01.Scenes/Gacha/GachaResult.unity
+    guid: 797d4185822ec57418dd315b21a7edca
   m_configObjects: {}

@@ -15,6 +15,7 @@ public class MainUIManager : MonoBehaviour
     void Start()
     {
         homeBtn.onClick.AddListener(() => MoveHome());
+        gachaBtn.onClick.AddListener(() => MoveGacha());
     }
 
     // Update is called once per frame
@@ -25,7 +26,13 @@ public class MainUIManager : MonoBehaviour
 
     private void MoveHome()
     {
-        SceneManager.LoadScene("MainUI");
-        SceneManager.LoadScene("Main", LoadSceneMode.Additive);
+        SceneManager.LoadScene("Main");
+        SceneManager.LoadScene("MainUI", LoadSceneMode.Additive);
+    }
+
+    private void MoveGacha()
+    {
+        SceneManager.LoadScene("GachaScene");
+        SceneManager.LoadScene("MainUI", LoadSceneMode.Additive);
     }
 }
