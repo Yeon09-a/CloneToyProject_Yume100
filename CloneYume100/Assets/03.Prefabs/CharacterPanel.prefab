@@ -696,6 +696,7 @@ GameObject:
   - component: {fileID: 1324978677525046046}
   - component: {fileID: 1324978677525046044}
   - component: {fileID: 1324978677525046047}
+  - component: {fileID: 5112940907578372821}
   m_Layer: 5
   m_Name: CharacterPanel
   m_TagString: Untagged
@@ -769,6 +770,25 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &5112940907578372821
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1324978677525046017}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 36e7ed3b699dbbf4a88d2991f26ac6df, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  name: {fileID: 1324978677905934862}
+  color: {fileID: 1324978676664159044}
+  characterImage: {fileID: 1324978676205936579}
+  stars: {fileID: 1324978676589881195}
+  hp: {fileID: 3537160299942149673}
+  attack: {fileID: 2594704228855798595}
+  heal: {fileID: 6025620196059560322}
 --- !u!1 &1324978677553383722
 GameObject:
   m_ObjectHideFlags: 0

@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Character : MonoBehaviour
+public class Character
 {
     public enum LeaderSkill
     {
@@ -30,16 +30,31 @@ public class Character : MonoBehaviour
         Pupple
     }
 
-    protected string chaName; // 이름
-    protected int lv = 1; // Lv
-    protected int rare; // 레어도
-    protected CharacterColor color; // 속성
-    protected int attack; // 공격력
-    protected int heal; // 회복력
-    protected int hp;
-    protected BattleSkill battleSkill; // 배틀 스킬
-    protected LeaderSkill leaderSkill; // 리더 스킬
+    public int characterNum; // 캐릭터 번호(캐릭터 리스트에서 몇 번째인지)
+    
+    public string chaName; // 이름
+    public int lv = 1; // Lv
+    public int rare; // 레어도
+    public CharacterColor color; // 속성
+    public int attack; // 공격력
+    public int heal; // 회복력
+    public int hp;
+    public BattleSkill battleSkill; // 배틀 스킬
+    public LeaderSkill leaderSkill; // 리더 스킬
 
+    public Character(int num, string name, int rare, CharacterColor color, int attack, int heal, int hp, BattleSkill bSkill, LeaderSkill lSkill)
+    {
+        characterNum = num;
+        chaName = name;
+        this.rare = rare;
+        this.color = color;
+        this.attack = attack;
+        this.heal = heal;
+        this.hp = hp;
+        battleSkill = bSkill;
+        leaderSkill = lSkill;
+    }
+    
     protected void LevelUp() // 레벨 업 함수
     {
         lv += 1;
