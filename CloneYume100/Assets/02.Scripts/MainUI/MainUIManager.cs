@@ -15,6 +15,7 @@ public class MainUIManager : MonoBehaviour
     void Start()
     {
         homeBtn.onClick.AddListener(() => MoveHome());
+        characterBtn.onClick.AddListener(() => MoveCharacter());
         gachaBtn.onClick.AddListener(() => MoveGacha());
     }
 
@@ -33,6 +34,12 @@ public class MainUIManager : MonoBehaviour
     private void MoveGacha()
     {
         SceneManager.LoadScene("GachaScene");
+        SceneManager.LoadScene("MainUI", LoadSceneMode.Additive);
+    }
+
+    private void MoveCharacter()
+    {
+        SceneManager.LoadScene("CharacterScene");
         SceneManager.LoadScene("MainUI", LoadSceneMode.Additive);
     }
 }
