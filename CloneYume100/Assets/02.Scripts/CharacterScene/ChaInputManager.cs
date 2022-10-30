@@ -3,30 +3,45 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
+using System.Linq;
+
 
 public class ChaInputManager : MonoBehaviour
 {
     public List<Vector2> positions; // 베리어 곡선 점 리스트
+    public List<Vector2> nextRightPositions; // moveValue가 1을 넘을 경우 즉, 캐릭터가 다음 위치를 넘어가려 하는 경우를 위한 베리어 곡선 점 리스트(이걸 만들지 않으면 setPosition을 해야하는데 이거는 시간이 많이 걸려서 리스트가 새롭게 입력이 안됨)
+    public List<Vector2> nextLeftPositions; // moveValue가 1을 넘을 경우 즉, 캐릭터가 다음 위치를 넘어가려 하는 경우를 위한 베리어 곡선 점 리스트(이걸 만들지 않으면 setPosition을 해야하는데 이거는 시간이 많이 걸려서 리스트가 새롭게 입력이 안됨)
 
-    public RectTransform first; // 첫 번째 캐릭터
-    public RectTransform second; // 두 번째 캐릭터
-    public RectTransform third; // 세 번째 캐릭터
-    public RectTransform fourth; // 네 번째 캐릭터
-    public RectTransform fifth; // 다섯 번째 캐릭터
+    private Touch touch;
+    private Vector2 touchPoint;
+    private Vector2 curPoint;
+    public float moveValue;
+    private float maxMoveWidth;
+
+    public Transform first; // 첫 번째 캐릭터
+    public Transform second; // 두 번째 캐릭터
+    public Transform third; // 세 번째 캐릭터
+    public Transform fourth; // 네 번째 캐릭터
+    public Transform fifth; // 다섯 번째 캐릭터
+
+    // 베리어 곡선 점 위치
+    public Transform a;
+    public Transform b;
+    public Transform c;
+    public Transform d;
+    public Transform e;
+    public Transform f;
+    public Transform g;
+    public Transform h;
+    public Transform i;
+    public Transform j;
     
     // Start is called before the first frame update
     void Start()
     {
-        positions.Add(first.position);
-        positions.Add(new Vector2(second.position.x, first.position.y));
-        positions.Add(second.position);
-        positions.Add(new Vector2(second.position.x, third.position.y));
-        positions.Add(third.position);
-        positions.Add(Vector2.Lerp(third.position, fourth.position, 0.5f));
-        positions.Add(fourth.position);
-        positions.Add(new Vector2(fifth.position.x, fourth.position.y));
-        positions.Add(fifth.position);
-        positions.Add(new Vector2(fifth.position.x, first.position.y));
+        maxMoveWidth = (float)Screen.width * 2f / 3f;
+
+        SetPositions();
     }
 
     // Update is called once per frame
@@ -34,41 +49,39 @@ public class ChaInputManager : MonoBehaviour
     {
         if (Input.touchCount == 1)
         {
-            Touch touch = Input.GetTouch(0);
-            Vector2 touchPoint = Vector2.zero;
+            touch = Input.GetTouch(0);
 
-            float moveValue = 0f; // 거리 비율로 계산하기 Distance 사용
-            
             if (touch.phase == TouchPhase.Began)
             {
                 touchPoint = touch.position;
             }
             else if(touch.phase == TouchPhase.Moved)
             {
-                Vector2 curPos = touch.position;
-                
-                if(touchPoint.y - curPos.y < 0) // 오른쪽으로 이동
+                curPoint = touch.position;
+
+                if (touchPoint.x - curPoint.x < 0) // 오른쪽으로 이동
                 {
-                    moveValue += 0.5f;
+                    if (moveValue >= 0.9999f)
+                    {
+                        moveValue = (((touchPoint.x - curPoint.x) * -1f) / maxMoveWidth) - 0.9999f;
+                    }
+                    else
+                    {
+                        moveValue = ((touchPoint.x - curPoint.x) * -1f) / maxMoveWidth;
+                    }
 
                     MoveRightCharacters(moveValue);
-
-                    if (moveValue == 1f)
-                    {
-                        moveValue = 0f;
-                    }
                 }
-                else if(touchPoint.y - curPos.y > 0) // 왼쪽으로 이동
+                else if (touchPoint.x - curPoint.x > 0) // 왼쪽으로 이동
                 {
-                    
+
                 }
 
-                touchPoint = curPos;
             }
             else if (touch.phase == TouchPhase.Ended)
             {
                 SetCharacterPosition();
-                Debug.Log(111);
+                moveValue = 0;
             }
         }
     }
@@ -84,16 +97,7 @@ public class ChaInputManager : MonoBehaviour
 
     private void MoveRightCharacters(float value)
     {
-        if(value == 1)
-        {
-            for(int i = 0; i < 2; i++)
-            {
-                Vector2 temp = positions[0];
-                positions.RemoveAt(0);
-                positions.Add(temp);
-            }
-        }
-        else
+        if(value < 0.9999f)
         {
             first.position = ThreeBezierCurve(positions[0], positions[1], positions[2], value);
             second.position = ThreeBezierCurve(positions[2], positions[3], positions[4], value);
@@ -101,56 +105,229 @@ public class ChaInputManager : MonoBehaviour
             fourth.position = ThreeBezierCurve(positions[6], positions[7], positions[8], value);
             fifth.position = ThreeBezierCurve(positions[8], positions[9], positions[0], value);
         }
+        else
+        {
+            positions.Clear();
+            positions = nextRightPositions.ToList();
+        }
         
     }
 
-    private void SetCharacterPosition()
+    private void SetCharacterPosition() // 오른쪽 또는 왼쪽에 더 가까운지 확인으로 수정해야 함
     {
-        if (Vector2.Distance(positions[0], first.position) >= Vector2.Distance(first.position, positions[2]))
+        float maxTime = 1f;
+        float time = 0;
+        float curMoveValue = moveValue;
+
+        if(curMoveValue != 0 && curMoveValue != 1f)
         {
-            first.position = positions[2];
-        }
-        else
-        {
-            first.position = positions[0];
+            while (true)
+            {
+                time += Time.deltaTime / maxTime;
+
+                if (curMoveValue >= 0.4f) // 다음 위치에 더 가까움
+                {
+                    moveValue = Mathf.Lerp(curMoveValue, 1, time);
+                    MoveRightCharacters(time);
+                    
+                }
+                else // 이전 위치에 더 가까움
+                {
+                    moveValue = Mathf.Lerp(curMoveValue, 0, time);
+                    
+                }
+
+                if(moveValue == 0 || moveValue >= 0.9999f)
+                {
+                    break;
+                }
+            }
         }
 
-        if (Vector2.Distance(positions[2], second.position) >= Vector2.Distance(second.position, positions[4]))
-        {
-            second.position = positions[4];
-        }
-        else
-        {
-            second.position = positions[2];
-        }
-
-        if (Vector2.Distance(positions[4], third.position) >= Vector2.Distance(third.position, positions[6]))
-        {
-            third.position = positions[6];
-        }
-        else
-        {
-            third.position = positions[4];
-        }
-
-        if (Vector2.Distance(positions[6], fourth.position) >= Vector2.Distance(fourth.position, positions[8]))
-        {
-            fourth.position = positions[6];
-        }
-        else
-        {
-            fourth.position = positions[8];
-        }
-
-        if (Vector2.Distance(positions[8], fifth.position) >= Vector2.Distance(fifth.position, positions[0]))
-        {
-            fifth.position = positions[8];
-        }
-        else
-        {
-            fifth.position = positions[0];
-        }
+        SetPositions();
     }
 
+    private void SetPositions() 
+    {
+        positions.Clear();
+        nextRightPositions.Clear();
+        nextLeftPositions.Clear();
 
+
+        if (Vector2.Distance(first.position, a.position) <= 0.05f)
+        {
+            positions.Add(a.position);
+            positions.Add(b.position);
+            positions.Add(c.position);
+            positions.Add(d.position);
+            positions.Add(e.position);
+            positions.Add(f.position);
+            positions.Add(g.position);
+            positions.Add(h.position);
+            positions.Add(i.position);
+            positions.Add(j.position);
+
+            nextRightPositions.Add(c.position);
+            nextRightPositions.Add(d.position);
+            nextRightPositions.Add(e.position);
+            nextRightPositions.Add(f.position);
+            nextRightPositions.Add(g.position);
+            nextRightPositions.Add(h.position);
+            nextRightPositions.Add(i.position);
+            nextRightPositions.Add(j.position);
+            nextRightPositions.Add(a.position);
+            nextRightPositions.Add(b.position);
+
+            nextLeftPositions.Add(i.position);
+            nextLeftPositions.Add(j.position);
+            nextLeftPositions.Add(a.position);
+            nextLeftPositions.Add(b.position);
+            nextLeftPositions.Add(c.position);
+            nextLeftPositions.Add(d.position);
+            nextLeftPositions.Add(e.position);
+            nextLeftPositions.Add(f.position);
+            nextLeftPositions.Add(g.position);
+            nextLeftPositions.Add(h.position);
+        }
+        else if (Vector2.Distance(first.position, c.position) <= 0.05f)
+        {
+            positions.Add(c.position);
+            positions.Add(d.position);
+            positions.Add(e.position);
+            positions.Add(f.position);
+            positions.Add(g.position);
+            positions.Add(h.position);
+            positions.Add(i.position);
+            positions.Add(j.position);
+            positions.Add(a.position);
+            positions.Add(b.position);
+
+            nextRightPositions.Add(e.position);
+            nextRightPositions.Add(f.position);
+            nextRightPositions.Add(g.position);
+            nextRightPositions.Add(h.position);
+            nextRightPositions.Add(i.position);
+            nextRightPositions.Add(j.position);
+            nextRightPositions.Add(a.position);
+            nextRightPositions.Add(b.position);
+            nextRightPositions.Add(c.position);
+            nextRightPositions.Add(d.position);
+
+            nextLeftPositions.Add(a.position);
+            nextLeftPositions.Add(b.position);
+            nextLeftPositions.Add(c.position);
+            nextLeftPositions.Add(d.position);
+            nextLeftPositions.Add(e.position);
+            nextLeftPositions.Add(f.position);
+            nextLeftPositions.Add(g.position);
+            nextLeftPositions.Add(h.position);
+            nextLeftPositions.Add(i.position);
+            nextLeftPositions.Add(j.position);
+        }
+        else if (Vector2.Distance(first.position, e.position) <= 0.05f)
+        {
+            positions.Add(e.position);
+            positions.Add(f.position);
+            positions.Add(g.position);
+            positions.Add(h.position);
+            positions.Add(i.position);
+            positions.Add(j.position);
+            positions.Add(a.position);
+            positions.Add(b.position);
+            positions.Add(c.position);
+            positions.Add(d.position);
+
+            nextRightPositions.Add(g.position);
+            nextRightPositions.Add(h.position);
+            nextRightPositions.Add(i.position);
+            nextRightPositions.Add(j.position);
+            nextRightPositions.Add(a.position);
+            nextRightPositions.Add(b.position);
+            nextRightPositions.Add(c.position);
+            nextRightPositions.Add(d.position);
+            nextRightPositions.Add(e.position);
+            nextRightPositions.Add(f.position);
+
+            nextLeftPositions.Add(c.position);
+            nextLeftPositions.Add(d.position);
+            nextLeftPositions.Add(e.position);
+            nextLeftPositions.Add(f.position);
+            nextLeftPositions.Add(g.position);
+            nextLeftPositions.Add(h.position);
+            nextLeftPositions.Add(i.position);
+            nextLeftPositions.Add(j.position);
+            nextLeftPositions.Add(a.position);
+            nextLeftPositions.Add(b.position);
+        }
+        else if (Vector2.Distance(first.position, g.position) <= 0.05f)
+        {
+            positions.Add(g.position);
+            positions.Add(h.position);
+            positions.Add(i.position);
+            positions.Add(j.position);
+            positions.Add(a.position);
+            positions.Add(b.position);
+            positions.Add(c.position);
+            positions.Add(d.position);
+            positions.Add(e.position);
+            positions.Add(f.position);
+
+            nextRightPositions.Add(i.position);
+            nextRightPositions.Add(j.position);
+            nextRightPositions.Add(a.position);
+            nextRightPositions.Add(b.position);
+            nextRightPositions.Add(c.position);
+            nextRightPositions.Add(d.position);
+            nextRightPositions.Add(e.position);
+            nextRightPositions.Add(f.position);
+            nextRightPositions.Add(g.position);
+            nextRightPositions.Add(h.position);
+
+            nextLeftPositions.Add(e.position);
+            nextLeftPositions.Add(f.position);
+            nextLeftPositions.Add(g.position);
+            nextLeftPositions.Add(h.position);
+            nextLeftPositions.Add(i.position);
+            nextLeftPositions.Add(j.position);
+            nextLeftPositions.Add(a.position);
+            nextLeftPositions.Add(b.position);
+            nextLeftPositions.Add(c.position);
+            nextLeftPositions.Add(d.position);
+        }
+        else if (Vector2.Distance(first.position, i.position) <= 0.05f)
+        {
+            positions.Add(i.position);
+            positions.Add(j.position);
+            positions.Add(a.position);
+            positions.Add(b.position);
+            positions.Add(c.position);
+            positions.Add(d.position);
+            positions.Add(e.position);
+            positions.Add(f.position);
+            positions.Add(g.position);
+            positions.Add(h.position);
+
+            nextRightPositions.Add(a.position);
+            nextRightPositions.Add(b.position);
+            nextRightPositions.Add(c.position);
+            nextRightPositions.Add(d.position);
+            nextRightPositions.Add(e.position);
+            nextRightPositions.Add(f.position);
+            nextRightPositions.Add(g.position);
+            nextRightPositions.Add(h.position);
+            nextRightPositions.Add(i.position);
+            nextRightPositions.Add(j.position);
+
+            nextLeftPositions.Add(g.position);
+            nextLeftPositions.Add(h.position);
+            nextLeftPositions.Add(i.position);
+            nextLeftPositions.Add(j.position);
+            nextLeftPositions.Add(a.position);
+            nextLeftPositions.Add(b.position);
+            nextLeftPositions.Add(c.position);
+            nextLeftPositions.Add(d.position);
+            nextLeftPositions.Add(e.position);
+            nextLeftPositions.Add(f.position);
+        }
+    } // 베리어 곡선 점 리스트 위치 설정
 }
