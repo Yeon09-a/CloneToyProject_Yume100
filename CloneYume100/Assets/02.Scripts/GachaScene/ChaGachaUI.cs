@@ -21,19 +21,38 @@ public class ChaGachaUI : MonoBehaviour
     private List<Character>[] characterRare; // 캐릭터 레어도 리스트
     static public List<Character> result = new List<Character>(); // 뽑기 결과 리스트
 
+    public Sprite[] rareImage; // 레어도 이미지
+    public Sprite[] colorImage; // 속성 이미지
+
+    public Sprite[] oneImage; // 1성 캐릭터 이미지 리스트
+    public Sprite[] twoImage; // 2성 캐릭터 이미지 리스트
+    public Sprite[] threeImage; // 3성 캐릭터 이미지 리스트
+    public Sprite[] fourImage; // 4성 캐릭터 이미지 리스트
+    public Sprite[] fiveImage; // 5성 캐릭터 이미지 리스트
+
+    private Dictionary<int, Sprite[]> characterDic; // 위의 레어도에 따른 캐릭터 이미지 리스트와 레어도를 연결지은 딕셔너리
+
     void Start()
     {
+        characterDic = new Dictionary<int, Sprite[]>() {
+            {1, oneImage},
+            {2, twoImage},
+            {3, threeImage},
+            {4, fourImage},
+            {5, fiveImage}
+        };
+
         valueBtn.onClick.AddListener(() => valueSceneMove());
         oneTimeBtn.onClick.AddListener(() => OneTimeBtnFun());
         tenTimeBtn.onClick.AddListener(() => TenTimeBtnFun());
 
-        one.Add(new Character(0, "그냥 감자", 1, Character.CharacterColor.Red, 10, 5, 20, Character.BattleSkill.LineDestroy, Character.LeaderSkill.None));
-        two.Add(new Character(0, "싹난 감자", 2, Character.CharacterColor.Blue, 15, 10, 30, Character.BattleSkill.ColorDestroy, Character.LeaderSkill.None));
-        three.Add(new Character(0, "공부 감자", 3, Character.CharacterColor.Green, 25, 30, 40, Character.BattleSkill.Heal, Character.LeaderSkill.HealUp));
-        four.Add(new Character(0, "파티 감자", 4, Character.CharacterColor.Yellow, 35, 25, 45, Character.BattleSkill.Change, Character.LeaderSkill.AttackUp));
-        five.Add(new Character(0, "그냥 감자", 5, Character.CharacterColor.Pupple, 35, 20, 55, Character.BattleSkill.TimeUp, Character.LeaderSkill.AttackUp));
+        one.Add(new Character(0, "그냥 감자", 1, Character.CharacterColor.Red, 10, 5, 20, Character.BattleSkill.LineDestroy, Character.LeaderSkill.None, characterDic[1][0], rareImage[0], colorImage[((int)Character.CharacterColor.Red)]));
+        two.Add(new Character(0, "싹난 감자", 2, Character.CharacterColor.Blue, 15, 10, 30, Character.BattleSkill.ColorDestroy, Character.LeaderSkill.None, characterDic[2][0], rareImage[1], colorImage[((int)Character.CharacterColor.Blue)]));
+        three.Add(new Character(0, "공부 감자", 3, Character.CharacterColor.Green, 25, 30, 40, Character.BattleSkill.Heal, Character.LeaderSkill.HealUp, characterDic[3][0], rareImage[2], colorImage[((int)Character.CharacterColor.Green)]));
+        four.Add(new Character(0, "파티 감자", 4, Character.CharacterColor.Yellow, 35, 25, 45, Character.BattleSkill.Change, Character.LeaderSkill.AttackUp, characterDic[4][0], rareImage[3], colorImage[((int)Character.CharacterColor.Yellow)]));
+        five.Add(new Character(0, "그냥 감자", 5, Character.CharacterColor.Pupple, 35, 20, 55, Character.BattleSkill.TimeUp, Character.LeaderSkill.AttackUp, characterDic[5][0], rareImage[4], colorImage[((int)Character.CharacterColor.Pupple)]));
 
-        characterRare = new List<Character>[5] { one, two, three, four, five };
+        characterRare = new List<Character>[5] { one, two, three, four, five };;
     }
 
     private void valueSceneMove() // 출현 캐릭터 화면 이동
@@ -105,6 +124,7 @@ public class ChaGachaUI : MonoBehaviour
     private void OneTimeGacha() // 뽑기 1회 실행 함수
     {
         GachaFun();
+        AllMemberManager.allMembers.AddRange(result);
     }
 
     private void TenTimeGacha() // 뽑기 10회 실행 함수
@@ -115,5 +135,6 @@ public class ChaGachaUI : MonoBehaviour
         }
         // 마지막은 4성 이상 필수
         LastGachaFun();
+        AllMemberManager.allMembers.AddRange(result);
     }
 }

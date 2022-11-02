@@ -218,6 +218,28 @@ MonoBehaviour:
   valueBtn: {fileID: 1966875598}
   oneTimeBtn: {fileID: 526122912}
   tenTimeBtn: {fileID: 177938932}
+  rareImage:
+  - {fileID: 21300000, guid: 8087bad78ca75ee4f98f85f389bc3719, type: 3}
+  - {fileID: 21300000, guid: a5cea57cff8794444adfd832362b6da8, type: 3}
+  - {fileID: 21300000, guid: e8daca7f9e558714f822b2467187cb06, type: 3}
+  - {fileID: 21300000, guid: b59e4dc2c5138f34c84aa21f70b33820, type: 3}
+  - {fileID: 21300000, guid: df4425f84d3e08a468b6a20e419e60d5, type: 3}
+  colorImage:
+  - {fileID: 21300000, guid: a822a872ecafb0f49abe971b295e968a, type: 3}
+  - {fileID: 21300000, guid: 37cf90b4bfb394d4b9902a35cbe3ee57, type: 3}
+  - {fileID: 21300000, guid: 93378b598880c6245acc13ef697938ac, type: 3}
+  - {fileID: 21300000, guid: ea1a181ab34e73742bb77753f03c5eaf, type: 3}
+  - {fileID: 21300000, guid: f7011a248c8b0cb46ab2a15711eb4ccd, type: 3}
+  oneImage:
+  - {fileID: 21300000, guid: 87741fde568054144a1e121810e03e11, type: 3}
+  twoImage:
+  - {fileID: 21300000, guid: f1d0276fb0db68047a697eb8261208db, type: 3}
+  threeImage:
+  - {fileID: 21300000, guid: 88d81c34ddb869643ab5f68b69ce32a6, type: 3}
+  fourImage:
+  - {fileID: 21300000, guid: c1213f633d1c8904089e157dcc434e2f, type: 3}
+  fiveImage:
+  - {fileID: 21300000, guid: 96cd7c0924b8cd34faa9b693413ad37b, type: 3}
 --- !u!1 &73522430
 GameObject:
   m_ObjectHideFlags: 0

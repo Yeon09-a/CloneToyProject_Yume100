@@ -42,7 +42,11 @@ public class Character
     public BattleSkill battleSkill; // 배틀 스킬
     public LeaderSkill leaderSkill; // 리더 스킬
 
-    public Character(int num, string name, int rare, CharacterColor color, int attack, int heal, int hp, BattleSkill bSkill, LeaderSkill lSkill)
+    public Sprite characterImage; // 캐릭터 이미지
+    public Sprite starsImage; // 레어도 이미지
+    public Sprite colorImage; // 속성 이미지
+
+    public Character(int num, string name, int rare, CharacterColor color, int attack, int heal, int hp, BattleSkill bSkill, LeaderSkill lSkill, Sprite chaImage, Sprite starsImage, Sprite colorImage)
     {
         characterNum = num;
         chaName = name;
@@ -53,6 +57,9 @@ public class Character
         this.hp = hp;
         battleSkill = bSkill;
         leaderSkill = lSkill;
+        characterImage = chaImage;
+        this.starsImage = starsImage;
+        this.colorImage = colorImage;
     }
     
     protected void LevelUp() // 레벨 업 함수
