@@ -20,7 +20,6 @@ public class CharacterMemberPanel : MonoBehaviour
         Color hexEdgeColor;
         Color hexLevelColor;
         ColorUtility.TryParseHtmlString(edgeColorArray[colorInt], out hexEdgeColor);
-        Debug.Log(edgeColorArray[colorInt]);
         edgeColor.color = hexEdgeColor;
         this.characterImage.sprite = characterImage;
         stars.sprite = starImage;
