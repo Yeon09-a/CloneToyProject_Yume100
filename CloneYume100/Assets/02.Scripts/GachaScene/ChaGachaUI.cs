@@ -124,7 +124,8 @@ public class ChaGachaUI : MonoBehaviour
     private void OneTimeGacha() // 뽑기 1회 실행 함수
     {
         GachaFun();
-        AllMemberManager.allMembers.AddRange(result);
+        AllMemberManager.allCharacters.AddRange(result);
+        AllMemberManager.allObjectsOrder.Add(0);
     }
 
     private void TenTimeGacha() // 뽑기 10회 실행 함수
@@ -132,9 +133,11 @@ public class ChaGachaUI : MonoBehaviour
         for(int i = 0; i < 9; i++)
         {
             GachaFun();
+            AllMemberManager.allObjectsOrder.Add(0);
         }
         // 마지막은 4성 이상 필수
         LastGachaFun();
-        AllMemberManager.allMembers.AddRange(result);
+        AllMemberManager.allCharacters.AddRange(result);
+        AllMemberManager.allObjectsOrder.Add(0);
     }
 }

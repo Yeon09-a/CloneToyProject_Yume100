@@ -31,7 +31,7 @@ public class Character
     }
 
     public int characterNum; // 캐릭터 번호(캐릭터 리스트에서 몇 번째인지)
-    
+
     public string chaName; // 이름
     public int lv = 1; // Lv
     public int rare; // 레어도
