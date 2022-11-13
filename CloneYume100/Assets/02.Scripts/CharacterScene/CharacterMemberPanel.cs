@@ -14,18 +14,22 @@ public class CharacterMemberPanel : MonoBehaviour
     public Image color;
     public Image levelImage;
     public TextMeshProUGUI level;
+    public int rare;
+    public int colorNum;
 
-    public void SetCharacterMemberPanel(int colorInt, Sprite characterImage, Sprite starImage, Sprite colorImage, int lv)
+    public void SetCharacterMemberPanel(int colorInt, Sprite characterImage, Sprite starImage, Sprite colorImage, int lv, int starRare)
     {
+        colorNum = colorInt;
         Color hexEdgeColor;
         Color hexLevelColor;
-        ColorUtility.TryParseHtmlString(edgeColorArray[colorInt], out hexEdgeColor);
+        ColorUtility.TryParseHtmlString(edgeColorArray[colorNum], out hexEdgeColor);
         edgeColor.color = hexEdgeColor;
         this.characterImage.sprite = characterImage;
         stars.sprite = starImage;
         color.sprite = colorImage;
-        ColorUtility.TryParseHtmlString(levelColorArray[colorInt], out hexLevelColor);
+        ColorUtility.TryParseHtmlString(levelColorArray[colorNum], out hexLevelColor);
         levelImage.color = hexLevelColor;
         level.text = "Lv : " + lv;
+        rare = starRare;
     }
 }

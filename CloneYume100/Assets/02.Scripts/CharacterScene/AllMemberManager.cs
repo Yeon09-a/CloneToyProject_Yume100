@@ -13,7 +13,7 @@ public class AllMemberManager : MonoBehaviour
     private List<GameObject> allMembersPanel = new List<GameObject>(); // 만든 오브젝트의 Panel 리스트(가장 먼저 만들어진 CharacterPanel이 앞번호로 온다.)(입수 순)
     private List<GameObject> arrayMemberPanel = new List<GameObject>(); // 정렬된 panel 리스트
 
-    public GameObject characterMemberPanel; // 캐릭터 프리셋
+    public GameObject characterMemberPanel; // 캐릭터 프리팹
     public RectTransform content;
 
     public TextMeshProUGUI memberCount; // 멤버 수 UI
@@ -67,7 +67,8 @@ public class AllMemberManager : MonoBehaviour
                     cha.characterImage,
                     cha.starsImage,
                     cha.colorImage,
-                    cha.lv);
+                    cha.lv,
+                    cha.rare);
                 characterCount -= 1;
                 allMembersPanel.Add(temp);
             }
@@ -81,19 +82,23 @@ public class AllMemberManager : MonoBehaviour
         }
     }
 
-    public void ArrayConditionCharacter(bool character, bool train,
+    // 표시 조건 함수
+    public void ArrayConditionCharacter(bool character, bool train, 
         bool fiveStar, bool fourStar, bool threeStar, bool twoStar, bool oneStar,
         bool red, bool blue, bool green, bool yellow, bool pupple)
     {
         arrayMemberPanel.Clear();
 
         int allPanelCount = allMembersPanel.Count;
-        
-        for(int j = 0; j < allPanelCount; j++)
+
+        int arrayCount;
+
+        for (int j = 0; j < allPanelCount; j++)
         {
             allMembersPanel[j].SetActive(false);
         }
         
+        // 캐릭터, 육성재료 표시 조건
         if ((character && train) || (!character && !train))
         {
             arrayMemberPanel = allMembersPanel.ToList();
@@ -119,8 +124,91 @@ public class AllMemberManager : MonoBehaviour
             }
         }
 
-        int arrayCount = arrayMemberPanel.Count;
-        
+        arrayCount = arrayMemberPanel.Count;
+
+        // 레어도 표시 조건
+        if (fiveStar || fourStar || threeStar || twoStar || oneStar)
+        {
+            List<GameObject> temp = new List<GameObject>();
+
+            for (int m = 0; m < arrayCount; m ++)
+            {
+                if(arrayMemberPanel[m].GetComponent<CharacterMemberPanel>()) // 캐릭터인 경우
+                {
+                    if (fiveStar && arrayMemberPanel[m].GetComponent<CharacterMemberPanel>().rare == 5)
+                    {
+                        temp.Add(arrayMemberPanel[m]);
+                    }
+                    else if (fourStar && arrayMemberPanel[m].GetComponent<CharacterMemberPanel>().rare == 4)
+                    {
+                        temp.Add(arrayMemberPanel[m]);
+                    }
+                    else if (threeStar && arrayMemberPanel[m].GetComponent<CharacterMemberPanel>().rare == 3)
+                    {
+                        temp.Add(arrayMemberPanel[m]);
+                    }
+                    else if (twoStar && arrayMemberPanel[m].GetComponent<CharacterMemberPanel>().rare == 2)
+                    {
+                        temp.Add(arrayMemberPanel[m]);
+                    }
+                    else if (oneStar && arrayMemberPanel[m].GetComponent<CharacterMemberPanel>().rare == 1)
+                    {
+                        temp.Add(arrayMemberPanel[m]);
+                    }
+                }
+                else // 육성재료일 경우
+                {
+
+                }
+            }
+
+            arrayMemberPanel = temp.ToList();
+        }
+
+        arrayCount = arrayMemberPanel.Count;
+
+        // 속성 표시 조건
+        if (red || blue || green || yellow || pupple)
+        {
+            List<GameObject> temp = new List<GameObject>();
+
+            for (int m = 0; m < arrayCount; m++)
+            {
+                if (arrayMemberPanel[m].GetComponent<CharacterMemberPanel>()) // 캐릭터인 경우
+                {
+                    if (red && arrayMemberPanel[m].GetComponent<CharacterMemberPanel>().colorNum == 0)
+                    {
+                        temp.Add(arrayMemberPanel[m]);
+                    }
+                    else if (blue && arrayMemberPanel[m].GetComponent<CharacterMemberPanel>().colorNum == 1)
+                    {
+                        temp.Add(arrayMemberPanel[m]);
+                    }
+                    else if (green && arrayMemberPanel[m].GetComponent<CharacterMemberPanel>().colorNum == 2)
+                    {
+                        temp.Add(arrayMemberPanel[m]);
+                    }
+                    else if (yellow && arrayMemberPanel[m].GetComponent<CharacterMemberPanel>().colorNum == 3)
+                    {
+                        temp.Add(arrayMemberPanel[m]);
+                    }
+                    else if (pupple && arrayMemberPanel[m].GetComponent<CharacterMemberPanel>().colorNum == 4)
+                    {
+                        temp.Add(arrayMemberPanel[m]);
+                    }
+                }
+                else // 육성재료일 경우
+                {
+
+                }
+            }
+
+            arrayMemberPanel = temp.ToList();
+        }
+
+        arrayCount = arrayMemberPanel.Count;
+
+        // 스크롤의 content의 크기를 조절
         if (arrayCount == 1)
         {
             content.sizeDelta = new Vector2(content.sizeDelta.x, 120);
@@ -139,7 +227,7 @@ public class AllMemberManager : MonoBehaviour
             content.sizeDelta = new Vector2(content.sizeDelta.x, 120 + (lineCount - 1) * 140);
         }
 
-        for(int k = 0; k < arrayCount; k++)
+        for(int k = 0; k < arrayCount; k++) // 정렬된 panel을 활성화
         {
             arrayMemberPanel[k].SetActive(true);
         }
