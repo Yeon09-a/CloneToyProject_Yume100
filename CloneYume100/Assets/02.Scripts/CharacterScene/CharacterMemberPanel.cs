@@ -6,6 +6,8 @@ using UnityEngine.UI;
 
 public class CharacterMemberPanel : MonoBehaviour
 {
+    public int code;
+    
     private string[] edgeColorArray = new string[5] { "#FF4949", "#4A60FF", "#55FF4A", "#F3FF4A", "#9D4AFF" };
     private string[] levelColorArray = new string[5] { "#FF7C7C", "#7C8DFF", "#49C27C", "#FFD426", "#B57CFF" };
     public Image edgeColor;
@@ -14,22 +16,33 @@ public class CharacterMemberPanel : MonoBehaviour
     public Image color;
     public Image levelImage;
     public TextMeshProUGUI level;
-    public int rare;
-    public int colorNum;
+    public Character cha;
 
-    public void SetCharacterMemberPanel(int colorInt, Sprite characterImage, Sprite starImage, Sprite colorImage, int lv, int starRare)
+    public void SetCharacterMemberPanel(Character cha, Sprite characterImage, Sprite starImage, Sprite colorImage)
     {
-        colorNum = colorInt;
+        this.cha = cha;
         Color hexEdgeColor;
         Color hexLevelColor;
-        ColorUtility.TryParseHtmlString(edgeColorArray[colorNum], out hexEdgeColor);
+        ColorUtility.TryParseHtmlString(edgeColorArray[(int)cha.color], out hexEdgeColor);
         edgeColor.color = hexEdgeColor;
         this.characterImage.sprite = characterImage;
         stars.sprite = starImage;
         color.sprite = colorImage;
-        ColorUtility.TryParseHtmlString(levelColorArray[colorNum], out hexLevelColor);
+        ColorUtility.TryParseHtmlString(levelColorArray[(int)cha.color], out hexLevelColor);
         levelImage.color = hexLevelColor;
-        level.text = "Lv : " + lv;
-        rare = starRare;
+        
+        if(code == 0)
+        {
+            level.text = "Lv : " + cha.lv;
+        }
+        else
+        {
+            level.text = "X 1";
+        }
+    }
+
+    public void setCount(int count)
+    {
+        level.text = "X " + count;
     }
 }

@@ -782,7 +782,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 36e7ed3b699dbbf4a88d2991f26ac6df, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  name: {fileID: 1324978677905934862}
+  chaName: {fileID: 1324978677905934862}
   color: {fileID: 1324978676664159044}
   characterImage: {fileID: 1324978676205936579}
   stars: {fileID: 1324978676589881195}

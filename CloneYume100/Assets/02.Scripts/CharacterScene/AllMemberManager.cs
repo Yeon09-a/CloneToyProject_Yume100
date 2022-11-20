@@ -10,11 +10,13 @@ public class AllMemberManager : MonoBehaviour
     static public List<int> allObjectsOrder = new List<int>(); // 플레이어가 가지고 있는 오브젝트들 리스트
     static public List<Character> allCharacters = new List<Character>(); // 플레이어가 가지고 있는 캐릭터 리스트
     static public List<TrainingObject> allTrainingObjects = new List<TrainingObject>(); // 플레이어가 가지고 있는 육성재료 리스트
-    private List<GameObject> allMembersPanel = new List<GameObject>(); // 만든 오브젝트의 Panel 리스트(가장 먼저 만들어진 CharacterPanel이 앞번호로 온다.)(입수 순)
-    private List<GameObject> arrayMemberPanel = new List<GameObject>(); // 정렬된 panel 리스트
+    private List<CharacterMemberPanel> allMembersPanel = new List<CharacterMemberPanel>(); // 만든 오브젝트의 Panel 리스트(가장 먼저 만들어진 CharacterPanel이 앞번호로 온다.)(입수 순)
+    private List<CharacterMemberPanel> arrayMemberPanel = new List<CharacterMemberPanel>(); // 정렬된 panel 리스트
 
     public GameObject characterMemberPanel; // 캐릭터 프리팹
+    public GameObject trainingObjectMemberPanel; // 육성 재료 프리팹
     public RectTransform content;
+    public RectTransform tempContent;
 
     public TextMeshProUGUI memberCount; // 멤버 수 UI
     private int count; // 멤버 수
@@ -60,15 +62,13 @@ public class AllMemberManager : MonoBehaviour
         {
             if(allObjectsOrder[i] == 0) // 캐릭터
             {
-                GameObject temp = Instantiate(characterMemberPanel, content);
+                CharacterMemberPanel temp = Instantiate(characterMemberPanel, content).GetComponent<CharacterMemberPanel>() ;
                 Character cha = allCharacters[characterCount - 1];
-                temp.GetComponent<CharacterMemberPanel>().SetCharacterMemberPanel(
-                    (int)cha.color,
+                temp.SetCharacterMemberPanel(
+                    cha,
                     cha.characterImage,
                     cha.starsImage,
-                    cha.colorImage,
-                    cha.lv,
-                    cha.rare);
+                    cha.colorImage);
                 characterCount -= 1;
                 allMembersPanel.Add(temp);
             }
@@ -95,7 +95,8 @@ public class AllMemberManager : MonoBehaviour
 
         for (int j = 0; j < allPanelCount; j++)
         {
-            allMembersPanel[j].SetActive(false);
+            allMembersPanel[j].transform.SetParent(tempContent);
+            allMembersPanel[j].gameObject.SetActive(false);
         }
         
         // 캐릭터, 육성재료 표시 조건
@@ -107,7 +108,7 @@ public class AllMemberManager : MonoBehaviour
         {
             for(int i = 0; i < allMembersPanel.Count; i++)
             {
-                if(allMembersPanel[i].GetComponent<CharacterMemberPanel>())
+                if(allMembersPanel[i].code == 0)
                 {
                     arrayMemberPanel.Add(allMembersPanel[i]);
                 }
@@ -117,7 +118,7 @@ public class AllMemberManager : MonoBehaviour
         {
             for (int i = 0; i < allMembersPanel.Count; i++)
             {
-                if (allMembersPanel[i].GetComponent<TrainingObjectMemberPanel>())
+                if (allMembersPanel[i].code == 1)
                 {
                     arrayMemberPanel.Add(allMembersPanel[i]);
                 }
@@ -129,29 +130,29 @@ public class AllMemberManager : MonoBehaviour
         // 레어도 표시 조건
         if (fiveStar || fourStar || threeStar || twoStar || oneStar)
         {
-            List<GameObject> temp = new List<GameObject>();
+            List<CharacterMemberPanel> temp = new List<CharacterMemberPanel>();
 
             for (int m = 0; m < arrayCount; m ++)
             {
-                if(arrayMemberPanel[m].GetComponent<CharacterMemberPanel>()) // 캐릭터인 경우
+                if(arrayMemberPanel[m].code == 0) // 캐릭터인 경우
                 {
-                    if (fiveStar && arrayMemberPanel[m].GetComponent<CharacterMemberPanel>().rare == 5)
+                    if (fiveStar && arrayMemberPanel[m].cha.rare == 5)
                     {
                         temp.Add(arrayMemberPanel[m]);
                     }
-                    else if (fourStar && arrayMemberPanel[m].GetComponent<CharacterMemberPanel>().rare == 4)
+                    else if (fourStar && arrayMemberPanel[m].cha.rare == 4)
                     {
                         temp.Add(arrayMemberPanel[m]);
                     }
-                    else if (threeStar && arrayMemberPanel[m].GetComponent<CharacterMemberPanel>().rare == 3)
+                    else if (threeStar && arrayMemberPanel[m].cha.rare == 3)
                     {
                         temp.Add(arrayMemberPanel[m]);
                     }
-                    else if (twoStar && arrayMemberPanel[m].GetComponent<CharacterMemberPanel>().rare == 2)
+                    else if (twoStar && arrayMemberPanel[m].cha.rare == 2)
                     {
                         temp.Add(arrayMemberPanel[m]);
                     }
-                    else if (oneStar && arrayMemberPanel[m].GetComponent<CharacterMemberPanel>().rare == 1)
+                    else if (oneStar && arrayMemberPanel[m].cha.rare == 1)
                     {
                         temp.Add(arrayMemberPanel[m]);
                     }
@@ -170,29 +171,29 @@ public class AllMemberManager : MonoBehaviour
         // 속성 표시 조건
         if (red || blue || green || yellow || pupple)
         {
-            List<GameObject> temp = new List<GameObject>();
+            List<CharacterMemberPanel> temp = new List<CharacterMemberPanel>();
 
             for (int m = 0; m < arrayCount; m++)
             {
-                if (arrayMemberPanel[m].GetComponent<CharacterMemberPanel>()) // 캐릭터인 경우
+                if (arrayMemberPanel[m].code == 0) // 캐릭터인 경우
                 {
-                    if (red && arrayMemberPanel[m].GetComponent<CharacterMemberPanel>().colorNum == 0)
+                    if (red && (int)(arrayMemberPanel[m].cha.color) == 0)
                     {
                         temp.Add(arrayMemberPanel[m]);
                     }
-                    else if (blue && arrayMemberPanel[m].GetComponent<CharacterMemberPanel>().colorNum == 1)
+                    else if (blue && (int)(arrayMemberPanel[m].cha.color) == 1)
                     {
                         temp.Add(arrayMemberPanel[m]);
                     }
-                    else if (green && arrayMemberPanel[m].GetComponent<CharacterMemberPanel>().colorNum == 2)
+                    else if (green && (int)(arrayMemberPanel[m].cha.color) == 2)
                     {
                         temp.Add(arrayMemberPanel[m]);
                     }
-                    else if (yellow && arrayMemberPanel[m].GetComponent<CharacterMemberPanel>().colorNum == 3)
+                    else if (yellow && (int)(arrayMemberPanel[m].cha.color) == 3)
                     {
                         temp.Add(arrayMemberPanel[m]);
                     }
-                    else if (pupple && arrayMemberPanel[m].GetComponent<CharacterMemberPanel>().colorNum == 4)
+                    else if (pupple && (int)(arrayMemberPanel[m].cha.color) == 4)
                     {
                         temp.Add(arrayMemberPanel[m]);
                     }
@@ -205,8 +206,99 @@ public class AllMemberManager : MonoBehaviour
 
             arrayMemberPanel = temp.ToList();
         }
+    }
 
-        arrayCount = arrayMemberPanel.Count;
+    public void ArrayOrderCharacter(bool ascending, 
+        bool rare, bool color, bool level, bool getOrder)
+    {
+        // 내림차순을 기준으로 정렬
+        if(rare) // 레어도 기준
+        {
+            RareArrayOrder(ref arrayMemberPanel, out int rareFiveCount, out int rareFourCount, out int rareThreeCount, out int rareTwoCount, out int rareOneCount);
+        }
+        else if(color) // 속성 기준
+        {
+
+        }
+        else if(level) // Lv 기준
+        {
+
+        }
+        else if(getOrder) // 입수 순 기준
+        {
+
+        }
+
+        if(ascending) // 오름차순
+        {
+
+        }
+    }
+
+    private void RareArrayOrder(ref List<CharacterMemberPanel> objectsList, out int fiveCount, out int fourCount, out int threeCount, out int twoCount, out int oneCount)
+    {
+        fiveCount = 0;
+        fourCount = 0;
+        threeCount = 0;
+        twoCount = 0;
+        oneCount = 0;
+        
+        count = objectsList.Count;
+        int max;
+
+        for(int i = 0; i < count - 1; i++)
+        {
+            max = i;
+            for(int j = i + 1; j < count; j++)
+            {
+                if(objectsList[j].cha.rare > objectsList[max].cha.rare)
+                {
+                    max = j;
+                }
+            }
+
+            /*CharacterMemberPanel temp = arrayMemberPanel[max];
+            arrayMemberPanel.RemoveAt(max);
+            arrayMemberPanel.Insert(max, arrayMemberPanel[i]);
+            arrayMemberPanel.RemoveAt(i);
+            arrayMemberPanel.Insert(i, temp);*/
+            
+            if(i != max)
+            {
+                CharacterMemberPanel temp = objectsList[max];
+                objectsList[max] = objectsList[i];
+                objectsList[i] = temp;
+            }
+        }
+
+        for(int k = 0; k < count; k++)
+        {
+            if(arrayMemberPanel[k].cha.rare == 5)
+            {
+                fiveCount += 1;   
+            }
+            else if (arrayMemberPanel[k].cha.rare == 4)
+            {
+                fourCount += 1;
+            }
+            else if (arrayMemberPanel[k].cha.rare == 3)
+            {
+                threeCount += 1;
+            }
+            else if (arrayMemberPanel[k].cha.rare == 2)
+            {
+                twoCount += 1;
+            }
+            else if (arrayMemberPanel[k].cha.rare == 1)
+            {
+                oneCount += 1;
+            }
+        }
+    }
+
+    public void SetActiveMemberPanel()
+    {
+        int arrayCount = arrayMemberPanel.Count;
 
         // 스크롤의 content의 크기를 조절
         if (arrayCount == 1)
@@ -227,9 +319,10 @@ public class AllMemberManager : MonoBehaviour
             content.sizeDelta = new Vector2(content.sizeDelta.x, 120 + (lineCount - 1) * 140);
         }
 
-        for(int k = 0; k < arrayCount; k++) // 정렬된 panel을 활성화
+        for (int k = 0; k < arrayCount; k++) // 정렬된 panel을 활성화
         {
-            arrayMemberPanel[k].SetActive(true);
+            arrayMemberPanel[k].transform.SetParent(content);
+            arrayMemberPanel[k].gameObject.SetActive(true);
         }
     }
 }
