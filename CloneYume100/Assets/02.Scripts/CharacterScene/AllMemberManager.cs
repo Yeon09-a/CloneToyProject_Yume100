@@ -64,11 +64,8 @@ public class AllMemberManager : MonoBehaviour
             {
                 CharacterMemberPanel temp = Instantiate(characterMemberPanel, content).GetComponent<CharacterMemberPanel>() ;
                 Character cha = allCharacters[characterCount - 1];
-                temp.SetCharacterMemberPanel(
-                    cha,
-                    cha.characterImage,
-                    cha.starsImage,
-                    cha.colorImage);
+                cha.getOrderNum = i;
+                temp.SetCharacterMemberPanel(cha);
                 characterCount -= 1;
                 allMembersPanel.Add(temp);
             }
@@ -134,32 +131,25 @@ public class AllMemberManager : MonoBehaviour
 
             for (int m = 0; m < arrayCount; m ++)
             {
-                if(arrayMemberPanel[m].code == 0) // 캐릭터인 경우
+                if (fiveStar && arrayMemberPanel[m].rare == 5)
                 {
-                    if (fiveStar && arrayMemberPanel[m].cha.rare == 5)
-                    {
-                        temp.Add(arrayMemberPanel[m]);
-                    }
-                    else if (fourStar && arrayMemberPanel[m].cha.rare == 4)
-                    {
-                        temp.Add(arrayMemberPanel[m]);
-                    }
-                    else if (threeStar && arrayMemberPanel[m].cha.rare == 3)
-                    {
-                        temp.Add(arrayMemberPanel[m]);
-                    }
-                    else if (twoStar && arrayMemberPanel[m].cha.rare == 2)
-                    {
-                        temp.Add(arrayMemberPanel[m]);
-                    }
-                    else if (oneStar && arrayMemberPanel[m].cha.rare == 1)
-                    {
-                        temp.Add(arrayMemberPanel[m]);
-                    }
+                    temp.Add(arrayMemberPanel[m]);
                 }
-                else // 육성재료일 경우
+                else if (fourStar && arrayMemberPanel[m].rare == 4)
                 {
-
+                    temp.Add(arrayMemberPanel[m]);
+                }
+                else if (threeStar && arrayMemberPanel[m].rare == 3)
+                {
+                    temp.Add(arrayMemberPanel[m]);
+                }
+                else if (twoStar && arrayMemberPanel[m].rare == 2)
+                {
+                    temp.Add(arrayMemberPanel[m]);
+                }
+                else if (oneStar && arrayMemberPanel[m].rare == 1)
+                {
+                    temp.Add(arrayMemberPanel[m]);
                 }
             }
 
@@ -175,32 +165,25 @@ public class AllMemberManager : MonoBehaviour
 
             for (int m = 0; m < arrayCount; m++)
             {
-                if (arrayMemberPanel[m].code == 0) // 캐릭터인 경우
+                if (red && arrayMemberPanel[m].colorNum == 0)
                 {
-                    if (red && (int)(arrayMemberPanel[m].cha.color) == 0)
-                    {
-                        temp.Add(arrayMemberPanel[m]);
-                    }
-                    else if (blue && (int)(arrayMemberPanel[m].cha.color) == 1)
-                    {
-                        temp.Add(arrayMemberPanel[m]);
-                    }
-                    else if (green && (int)(arrayMemberPanel[m].cha.color) == 2)
-                    {
-                        temp.Add(arrayMemberPanel[m]);
-                    }
-                    else if (yellow && (int)(arrayMemberPanel[m].cha.color) == 3)
-                    {
-                        temp.Add(arrayMemberPanel[m]);
-                    }
-                    else if (pupple && (int)(arrayMemberPanel[m].cha.color) == 4)
-                    {
-                        temp.Add(arrayMemberPanel[m]);
-                    }
+                    temp.Add(arrayMemberPanel[m]);
                 }
-                else // 육성재료일 경우
+                else if (blue && arrayMemberPanel[m].colorNum == 1)
                 {
-
+                    temp.Add(arrayMemberPanel[m]);
+                }
+                else if (green && arrayMemberPanel[m].colorNum == 2)
+                {
+                    temp.Add(arrayMemberPanel[m]);
+                }
+                else if (yellow && arrayMemberPanel[m].colorNum == 3)
+                {
+                    temp.Add(arrayMemberPanel[m]);
+                }
+                else if (pupple && arrayMemberPanel[m].colorNum == 4)
+                {
+                    temp.Add(arrayMemberPanel[m]);
                 }
             }
 
@@ -218,7 +201,7 @@ public class AllMemberManager : MonoBehaviour
         }
         else if(color) // 속성 기준
         {
-
+            ColorArrayOrder(ref arrayMemberPanel, out int colorRedCount, out int colorBlueCount, out int colorGreenCount, out int colorYellowCount, out int colorPuppleCount);
         }
         else if(level) // Lv 기준
         {
@@ -226,15 +209,16 @@ public class AllMemberManager : MonoBehaviour
         }
         else if(getOrder) // 입수 순 기준
         {
-
+            GetOrderArrayOrder(ref arrayMemberPanel);
         }
 
         if(ascending) // 오름차순
         {
-
+            arrayMemberPanel.Reverse();
         }
     }
 
+    // 레어도 순서 함수
     private void RareArrayOrder(ref List<CharacterMemberPanel> objectsList, out int fiveCount, out int fourCount, out int threeCount, out int twoCount, out int oneCount)
     {
         fiveCount = 0;
@@ -251,18 +235,12 @@ public class AllMemberManager : MonoBehaviour
             max = i;
             for(int j = i + 1; j < count; j++)
             {
-                if(objectsList[j].cha.rare > objectsList[max].cha.rare)
+                if(objectsList[j].rare > objectsList[max].rare)
                 {
                     max = j;
                 }
             }
 
-            /*CharacterMemberPanel temp = arrayMemberPanel[max];
-            arrayMemberPanel.RemoveAt(max);
-            arrayMemberPanel.Insert(max, arrayMemberPanel[i]);
-            arrayMemberPanel.RemoveAt(i);
-            arrayMemberPanel.Insert(i, temp);*/
-            
             if(i != max)
             {
                 CharacterMemberPanel temp = objectsList[max];
@@ -273,28 +251,111 @@ public class AllMemberManager : MonoBehaviour
 
         for(int k = 0; k < count; k++)
         {
-            if(arrayMemberPanel[k].cha.rare == 5)
+            if(arrayMemberPanel[k].rare == 5)
             {
                 fiveCount += 1;   
             }
-            else if (arrayMemberPanel[k].cha.rare == 4)
+            else if (arrayMemberPanel[k].rare == 4)
             {
                 fourCount += 1;
             }
-            else if (arrayMemberPanel[k].cha.rare == 3)
+            else if (arrayMemberPanel[k].rare == 3)
             {
                 threeCount += 1;
             }
-            else if (arrayMemberPanel[k].cha.rare == 2)
+            else if (arrayMemberPanel[k].rare == 2)
             {
                 twoCount += 1;
             }
-            else if (arrayMemberPanel[k].cha.rare == 1)
+            else if (arrayMemberPanel[k].rare == 1)
             {
                 oneCount += 1;
             }
         }
     }
+
+    // 속성 순서 함수
+    private void ColorArrayOrder(ref List<CharacterMemberPanel> objectsList, out int redCount, out int blueCount, out int greenCount, out int yellowCount, out int puppleCount)
+    {
+        redCount = 0;
+        blueCount = 0;
+        greenCount = 0;
+        yellowCount = 0;
+        puppleCount = 0;
+
+        count = objectsList.Count;
+        int min;
+
+        for (int i = 0; i < count - 1; i++)
+        {
+            min = i;
+            for (int j = i + 1; j < count; j++)
+            {
+                if (objectsList[j].colorNum < objectsList[min].colorNum)
+                {
+                    min = j;
+                }
+            }
+
+            if (i != min)
+            {
+                CharacterMemberPanel temp = objectsList[min];
+                objectsList[min] = objectsList[i];
+                objectsList[i] = temp;
+            }
+        }
+
+        for (int k = 0; k < count; k++)
+        {
+            if (arrayMemberPanel[k].colorNum == 0)
+            {
+                redCount += 1;
+            }
+            else if (arrayMemberPanel[k].colorNum == 1)
+            {
+                blueCount += 1;
+            }
+            else if (arrayMemberPanel[k].colorNum == 2)
+            {
+                greenCount += 1;
+            }
+            else if (arrayMemberPanel[k].colorNum == 3)
+            {
+                yellowCount += 1;
+            }
+            else if (arrayMemberPanel[k].colorNum == 4)
+            {
+                puppleCount += 1;
+            }
+        }
+    }
+
+    // 입수 순서 함수
+    private void GetOrderArrayOrder(ref List<CharacterMemberPanel> objectsList)
+    {
+        count = objectsList.Count;
+        int max;
+
+        for (int i = 0; i < count - 1; i++)
+        {
+            max = i;
+            for (int j = i + 1; j < count; j++)
+            {
+                if (objectsList[j].getOrderNum > objectsList[max].getOrderNum)
+                {
+                    max = j;
+                }
+            }
+
+            if (i != max)
+            {
+                CharacterMemberPanel temp = objectsList[max];
+                objectsList[max] = objectsList[i];
+                objectsList[i] = temp;
+            }
+        }
+    }
+
 
     public void SetActiveMemberPanel()
     {
