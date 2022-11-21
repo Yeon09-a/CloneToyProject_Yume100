@@ -46,3 +46,8 @@ UI 버튼 코드 연결
 
 2022.11.13 Sun
 정렬 시스템 중 표시 조건 완성
+
+2022.11.20 Sun
+표시 순서 레어도 함수 작성
+AllMemberManager 스크립트 수정
+CharacterMemberPanel 로 육성 재료 및 캐릭터 Panel 스크립트 통일
