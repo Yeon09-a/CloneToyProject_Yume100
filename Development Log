@@ -51,3 +51,7 @@ UI 버튼 코드 연결
 표시 순서 레어도 함수 작성
 AllMemberManager 스크립트 수정
 CharacterMemberPanel 로 육성 재료 및 캐릭터 Panel 스크립트 통일
+
+2022.11.21 Mon
+CharacterMemberPanel 및 AllMemberManager 수정
+정렬 표시 순서 입수 순, 속성 순 함수 작성
