@@ -82,7 +82,7 @@ public class AllMemberManager : MonoBehaviour
     // 표시 조건 함수
     public void ArrayConditionCharacter(bool character, bool train, 
         bool fiveStar, bool fourStar, bool threeStar, bool twoStar, bool oneStar,
-        bool red, bool blue, bool green, bool yellow, bool pupple)
+        bool red, bool blue, bool green, bool yellow, bool purple)
     {
         arrayMemberPanel.Clear();
 
@@ -159,7 +159,7 @@ public class AllMemberManager : MonoBehaviour
         arrayCount = arrayMemberPanel.Count;
 
         // 속성 표시 조건
-        if (red || blue || green || yellow || pupple)
+        if (red || blue || green || yellow || purple)
         {
             List<CharacterMemberPanel> temp = new List<CharacterMemberPanel>();
 
@@ -181,7 +181,7 @@ public class AllMemberManager : MonoBehaviour
                 {
                     temp.Add(arrayMemberPanel[m]);
                 }
-                else if (pupple && arrayMemberPanel[m].colorNum == 4)
+                else if (purple && arrayMemberPanel[m].colorNum == 4)
                 {
                     temp.Add(arrayMemberPanel[m]);
                 }
@@ -198,14 +198,30 @@ public class AllMemberManager : MonoBehaviour
         if(rare) // 레어도 기준
         {
             RareArrayOrder(ref arrayMemberPanel, out int rareFiveCount, out int rareFourCount, out int rareThreeCount, out int rareTwoCount, out int rareOneCount);
+            LevelRareArrayOrder(ref arrayMemberPanel, rareFiveCount);
+            LevelRareArrayOrder(ref arrayMemberPanel, rareFiveCount + rareFourCount, rareFiveCount);
+            LevelRareArrayOrder(ref arrayMemberPanel, rareFiveCount + rareFourCount + rareThreeCount, rareFiveCount + rareFourCount);
+            LevelRareArrayOrder(ref arrayMemberPanel, rareFiveCount + rareFourCount + rareThreeCount + rareTwoCount, rareFiveCount + rareFourCount + rareThreeCount);
+            LevelRareArrayOrder(ref arrayMemberPanel, rareFiveCount + rareFourCount + rareThreeCount + rareTwoCount + rareOneCount, rareFiveCount + rareFourCount + rareThreeCount + rareTwoCount);
+
+            // 후에 육성재료 부분 추가
         }
         else if(color) // 속성 기준
         {
-            ColorArrayOrder(ref arrayMemberPanel, out int colorRedCount, out int colorBlueCount, out int colorGreenCount, out int colorYellowCount, out int colorPuppleCount);
+            ColorArrayOrder(ref arrayMemberPanel, out int colorRedCount, out int colorBlueCount, out int colorGreenCount, out int colorYellowCount, out int colorPurpleCount);
+            LevelColorArrayOrder(ref arrayMemberPanel, colorRedCount);
+            LevelColorArrayOrder(ref arrayMemberPanel, colorRedCount + colorBlueCount, colorRedCount);
+            LevelColorArrayOrder(ref arrayMemberPanel, colorRedCount + colorBlueCount + colorGreenCount, colorRedCount + colorBlueCount);
+            LevelColorArrayOrder(ref arrayMemberPanel, colorRedCount + colorBlueCount + colorGreenCount + colorYellowCount, colorRedCount + colorBlueCount + colorGreenCount);
+            LevelColorArrayOrder(ref arrayMemberPanel, colorRedCount + colorBlueCount + colorGreenCount + colorYellowCount + colorPurpleCount, colorRedCount + colorBlueCount + colorGreenCount + colorYellowCount);
+
+            // 후에 육성재료 부분 추가
         }
         else if(level) // Lv 기준
         {
+            LevelArrayOrder(ref arrayMemberPanel);
 
+            // 후에 육성재료 부분 추가 
         }
         else if(getOrder) // 입수 순 기준
         {
@@ -226,8 +242,8 @@ public class AllMemberManager : MonoBehaviour
         threeCount = 0;
         twoCount = 0;
         oneCount = 0;
-        
-        count = objectsList.Count;
+
+        int count = objectsList.Count;
         int max;
 
         for(int i = 0; i < count - 1; i++)
@@ -275,13 +291,13 @@ public class AllMemberManager : MonoBehaviour
     }
 
     // 속성 순서 함수
-    private void ColorArrayOrder(ref List<CharacterMemberPanel> objectsList, out int redCount, out int blueCount, out int greenCount, out int yellowCount, out int puppleCount)
+    private void ColorArrayOrder(ref List<CharacterMemberPanel> objectsList, out int redCount, out int blueCount, out int greenCount, out int yellowCount, out int purpleCount)
     {
         redCount = 0;
         blueCount = 0;
         greenCount = 0;
         yellowCount = 0;
-        puppleCount = 0;
+        purpleCount = 0;
 
         count = objectsList.Count;
         int min;
@@ -325,7 +341,7 @@ public class AllMemberManager : MonoBehaviour
             }
             else if (arrayMemberPanel[k].colorNum == 4)
             {
-                puppleCount += 1;
+                purpleCount += 1;
             }
         }
     }
@@ -356,6 +372,130 @@ public class AllMemberManager : MonoBehaviour
         }
     }
 
+    // 레벨 순서 함수(레어도 Ver)
+    private void LevelRareArrayOrder(ref List<CharacterMemberPanel> objectsList, int end, int start = 0)
+    {
+        int max;
+
+        for (int i = start; i < end - 1; i++)
+        {
+            max = i;
+            for (int j = i + 1; j < end; j++)
+            {
+                if (objectsList[j].lv > objectsList[max].lv)
+                {
+                    max = j;
+                }
+                else if(objectsList[j].lv == objectsList[max].lv)
+                {
+                    if(objectsList[j].colorNum < objectsList[max].colorNum)
+                    {
+                        max = j;
+                    }
+                    else if(objectsList[j].colorNum == objectsList[max].colorNum)
+                    {
+                        if(objectsList[j].getOrderNum > objectsList[max].getOrderNum)
+                        {
+                            max = j;
+                        }
+                    }
+                }
+            }
+
+            if (i != max)
+            {
+                CharacterMemberPanel temp = objectsList[max];
+                objectsList[max] = objectsList[i];
+                objectsList[i] = temp;
+            }
+        }
+    }
+
+    // 레벨 순서 함수(속성 Ver)
+    private void LevelColorArrayOrder(ref List<CharacterMemberPanel> objectsList, int end, int start = 0)
+    {
+        int max;
+
+        for (int i = start; i < end - 1; i++)
+        {
+            max = i;
+            for (int j = i + 1; j < end; j++)
+            {
+                if (objectsList[j].lv > objectsList[max].lv)
+                {
+                    max = j;
+                }
+                else if (objectsList[j].lv == objectsList[max].lv)
+                {
+                    if (objectsList[j].rare > objectsList[max].rare)
+                    {
+                        max = j;
+                    }
+                    else if (objectsList[j].rare == objectsList[max].rare)
+                    {
+                        if (objectsList[j].getOrderNum > objectsList[max].getOrderNum)
+                        {
+                            max = j;
+                        }
+                    }
+                }
+            }
+
+            if (i != max)
+            {
+                CharacterMemberPanel temp = objectsList[max];
+                objectsList[max] = objectsList[i];
+                objectsList[i] = temp;
+            }
+        }
+    }
+
+    // 레벨 순서 함수
+    private void LevelArrayOrder(ref List<CharacterMemberPanel> objectsList)
+    {
+        int max;
+        int count = objectsList.Count;
+
+        for (int i = 0; i < count - 1; i++)
+        {
+            max = i;
+            for (int j = i + 1; j < count; j++)
+            {
+                if (objectsList[j].lv > objectsList[max].lv)
+                {
+                    max = j;
+                }
+                else if (objectsList[j].lv == objectsList[max].lv)
+                {
+                    if (objectsList[j].colorNum < objectsList[max].colorNum)
+                    {
+                        max = j;
+                    }
+                    else if (objectsList[j].colorNum == objectsList[max].colorNum)
+                    {
+                        if (objectsList[j].rare > objectsList[max].rare)
+                        {
+                            max = j;
+                        }
+                        else if(objectsList[j].rare == objectsList[max].rare)
+                        {
+                            if (objectsList[j].getOrderNum > objectsList[max].getOrderNum)
+                            {
+                                max = j;
+                            }
+                        }
+                    }
+                }
+            }
+
+            if (i != max)
+            {
+                CharacterMemberPanel temp = objectsList[max];
+                objectsList[max] = objectsList[i];
+                objectsList[i] = temp;
+            }
+        }
+    }
 
     public void SetActiveMemberPanel()
     {

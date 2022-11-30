@@ -22,6 +22,7 @@ public class CharacterMemberPanel : MonoBehaviour
     public int rare;
     public int colorNum;
     public int getOrderNum;
+    public int lv;
 
     public void SetCharacterMemberPanel(Character cha)
     {
@@ -39,8 +40,9 @@ public class CharacterMemberPanel : MonoBehaviour
         color.sprite = cha.colorImage;
         ColorUtility.TryParseHtmlString(levelColorArray[colorNum], out hexLevelColor);
         levelImage.color = hexLevelColor;
+        lv = cha.lv;
 
-        level.text = "Lv : " + cha.lv;
+        level.text = "Lv : " + lv;
     }
 
     public void SetTrainingObjectMemberPanel(TrainingObject trObj, Sprite characterImage, Sprite starImage, Sprite colorImage)

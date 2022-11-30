@@ -9760,7 +9760,7 @@ MonoBehaviour:
   blue: {fileID: 1798846648}
   green: {fileID: 880577284}
   yellow: {fileID: 2056383452}
-  pupple: {fileID: 2111068512}
+  purple: {fileID: 2111068512}
   conditionReset: {fileID: 0}
   orToggle: {fileID: 1838338601}
   orderPanel: {fileID: 38542516}
@@ -10236,7 +10236,7 @@ GameObject:
   - component: {fileID: 2111068511}
   - component: {fileID: 2111068512}
   m_Layer: 5
-  m_Name: Pupple
+  m_Name: Purple
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

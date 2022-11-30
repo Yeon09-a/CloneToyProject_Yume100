@@ -50,7 +50,7 @@ public class ChaGachaUI : MonoBehaviour
         two.Add(new Character(0, "싹난 감자", 2, Character.CharacterColor.Blue, 15, 10, 30, Character.BattleSkill.ColorDestroy, Character.LeaderSkill.None, characterDic[2][0], rareImage[1], colorImage[((int)Character.CharacterColor.Blue)]));
         three.Add(new Character(0, "공부 감자", 3, Character.CharacterColor.Green, 25, 30, 40, Character.BattleSkill.Heal, Character.LeaderSkill.HealUp, characterDic[3][0], rareImage[2], colorImage[((int)Character.CharacterColor.Green)]));
         four.Add(new Character(0, "파티 감자", 4, Character.CharacterColor.Yellow, 35, 25, 45, Character.BattleSkill.Change, Character.LeaderSkill.AttackUp, characterDic[4][0], rareImage[3], colorImage[((int)Character.CharacterColor.Yellow)]));
-        five.Add(new Character(0, "그냥 감자", 5, Character.CharacterColor.Pupple, 35, 20, 55, Character.BattleSkill.TimeUp, Character.LeaderSkill.AttackUp, characterDic[5][0], rareImage[4], colorImage[((int)Character.CharacterColor.Pupple)]));
+        five.Add(new Character(0, "그냥 감자", 5, Character.CharacterColor.Purple, 35, 20, 55, Character.BattleSkill.TimeUp, Character.LeaderSkill.AttackUp, characterDic[5][0], rareImage[4], colorImage[((int)Character.CharacterColor.Purple)]));
 
         characterRare = new List<Character>[5] { one, two, three, four, five };;
     }

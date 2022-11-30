@@ -27,7 +27,7 @@ public class Character
         Blue,
         Green,
         Yellow,
-        Pupple
+        Purple
     }
 
     public int characterNum; // 캐릭터 번호(캐릭터 리스트에서 몇 번째인지)

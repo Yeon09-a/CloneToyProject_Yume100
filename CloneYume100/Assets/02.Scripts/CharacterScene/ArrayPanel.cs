@@ -24,7 +24,7 @@ public class ArrayPanel : MonoBehaviour
     public Toggle blue;
     public Toggle green;
     public Toggle yellow;
-    public Toggle pupple;
+    public Toggle purple;
 
     public Button conditionReset;
          
@@ -67,7 +67,7 @@ public class ArrayPanel : MonoBehaviour
     {
         aMMgr.ArrayConditionCharacter(characterToggle.isOn, trainingToggle.isOn,
             fiveStar.isOn, fourStar.isOn, threeStar.isOn, twoStar.isOn, oneStar.isOn,
-            red.isOn, blue.isOn, green.isOn, yellow.isOn, pupple.isOn);
+            red.isOn, blue.isOn, green.isOn, yellow.isOn, purple.isOn);
 
         aMMgr.ArrayOrderCharacter(ascendingToggle.isOn,
             rare.isOn, color.isOn, level.isOn, getOrder.isOn);
