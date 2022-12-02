@@ -5939,6 +5939,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1463559531}
   - component: {fileID: 1463559532}
+  - component: {fileID: 1463559533}
   m_Layer: 0
   m_Name: AllMemberManager
   m_TagString: Untagged
@@ -5973,10 +5974,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 608edb8508f3d244f8a5f8f0c2507c5e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1463559533
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1463559530}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5cdc3e64cd074564f8478f1cf43a7476, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
   characterMemberPanel: {fileID: 6190039572903695740, guid: 64578bfe45644714b8ae59f7111fc80d, type: 3}
   trainingObjectMemberPanel: {fileID: 6190039572903695740, guid: 98d297101f3f1894ab440fa639cd00d9, type: 3}
   content: {fileID: 2033834003}
-  tempContent: {fileID: 1682267077}
   memberCount: {fileID: 144926699}
 --- !u!1 &1466116217
 GameObject:
@@ -9746,7 +9758,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 12206255aa538934a9be15328e2daa45, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  aMMgr: {fileID: 1463559532}
+  tempContent: {fileID: 1682267077}
+  content: {fileID: 2033834003}
   conToggle: {fileID: 1382124028}
   conditionPanel: {fileID: 1906252367}
   characterToggle: {fileID: 1408039290}
