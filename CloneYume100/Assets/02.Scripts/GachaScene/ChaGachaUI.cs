@@ -46,11 +46,11 @@ public class ChaGachaUI : MonoBehaviour
         oneTimeBtn.onClick.AddListener(() => OneTimeBtnFun());
         tenTimeBtn.onClick.AddListener(() => TenTimeBtnFun());
 
-        one.Add(new Character(0, "그냥 감자", 1, Character.CharacterColor.Red, 10, 5, 20, Character.BattleSkill.LineDestroy, Character.LeaderSkill.None, characterDic[1][0], rareImage[0], colorImage[((int)Character.CharacterColor.Red)]));
-        two.Add(new Character(0, "싹난 감자", 2, Character.CharacterColor.Blue, 15, 10, 30, Character.BattleSkill.ColorDestroy, Character.LeaderSkill.None, characterDic[2][0], rareImage[1], colorImage[((int)Character.CharacterColor.Blue)]));
-        three.Add(new Character(0, "공부 감자", 3, Character.CharacterColor.Green, 25, 30, 40, Character.BattleSkill.Heal, Character.LeaderSkill.HealUp, characterDic[3][0], rareImage[2], colorImage[((int)Character.CharacterColor.Green)]));
-        four.Add(new Character(0, "파티 감자", 4, Character.CharacterColor.Yellow, 35, 25, 45, Character.BattleSkill.Change, Character.LeaderSkill.AttackUp, characterDic[4][0], rareImage[3], colorImage[((int)Character.CharacterColor.Yellow)]));
-        five.Add(new Character(0, "그냥 감자", 5, Character.CharacterColor.Purple, 35, 20, 55, Character.BattleSkill.TimeUp, Character.LeaderSkill.AttackUp, characterDic[5][0], rareImage[4], colorImage[((int)Character.CharacterColor.Purple)]));
+        one.Add(new Character(0, "그냥 감자", 1, Character.CharacterColor.Red, 10, 5, 20, Character.BattleSkill.LineDestroy, Character.LeaderSkill.None, characterDic[1][0], rareImage[0], colorImage[((int)Character.CharacterColor.Red)], "맨 오른쪽 피스 6개 제거", 20, 6, "없음", 0));
+        two.Add(new Character(0, "싹난 감자", 2, Character.CharacterColor.Blue, 15, 10, 30, Character.BattleSkill.ColorDestroy, Character.LeaderSkill.None, characterDic[2][0], rareImage[1], colorImage[((int)Character.CharacterColor.Blue)], "파랑 피스 8개 제거", 25, 8, "없음", 0));
+        three.Add(new Character(0, "공부 감자", 3, Character.CharacterColor.Green, 25, 30, 40, Character.BattleSkill.Heal, Character.LeaderSkill.HealUp, characterDic[3][0], rareImage[2], colorImage[((int)Character.CharacterColor.Green)], "HP 회복 : 특대", 15, 2, "HP 회복 25% 증가", 25));
+        four.Add(new Character(0, "파티 감자", 4, Character.CharacterColor.Yellow, 35, 25, 45, Character.BattleSkill.Change, Character.LeaderSkill.AttackUp, characterDic[4][0], rareImage[3], colorImage[((int)Character.CharacterColor.Yellow)], "보라 피스 10개 노랑 피스로 변환", 30, 10, "노랑 캐릭터 공격력 25% 증가", 25));
+        five.Add(new Character(0, "그냥 감자", 5, Character.CharacterColor.Purple, 35, 20, 55, Character.BattleSkill.TimeUp, Character.LeaderSkill.AttackUp, characterDic[5][0], rareImage[4], colorImage[((int)Character.CharacterColor.Purple)], "시간 회복 3초", 60, 3, "전원 공격력 50% 증가", 50));
 
         characterRare = new List<Character>[5] { one, two, three, four, five };;
     }
