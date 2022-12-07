@@ -61,3 +61,6 @@ CharacterMemberPanel 및 AllMemberManager 수정
 
 2022.12.02 Fri
 정렬 시스템,  CharacterMemberPanel과 CharacterMemberPanel 프리팹 생성 코드 분리
+
+2022.12.07 Tue
+캐릭터 정보 씬 제작 및 Character 스크립트 스킬 변수 추가
