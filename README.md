@@ -35,5 +35,4 @@
 
 정렬 UI
 
-<img width="20%" src="https://user-images.githubusercontent.com/68226341/228320621-2e37bc60-1650-4ea1-b204-cbec97a2e8e9.png"/>
-<img width="20%" src="https://user-images.githubusercontent.com/68226341/228320628-1ff02118-7f8f-484c-a385-8095baf7a0b8.png"/>
+<img width="20%" src="https://user-images.githubusercontent.com/68226341/228320621-2e37bc60-1650-4ea1-b204-cbec97a2e8e9.png"/><img width="20%" src="https://user-images.githubusercontent.com/68226341/228320628-1ff02118-7f8f-484c-a385-8095baf7a0b8.png"/>
